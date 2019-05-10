@@ -8,10 +8,10 @@ module.exports = (request, response) => {
   const query = request.query
   const tms = {
     layer: query.layer,
-    format: query.Format,
     z: getZ(query.TileMatrix),
     x: query.TileCol,
-    y: query.TileRow
+    y: query.TileRow,
+    format: query.Format
   }
   response.send(tmsHandler({params: tms}, response))
 }
