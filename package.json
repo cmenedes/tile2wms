@@ -18,8 +18,7 @@
   },
   "homepage": "https://github.com/cmenedes/tile2wms#readme",
   "dependencies": {
-    "express": "^4.16.4",
-    "ol": "^5.3.2"
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

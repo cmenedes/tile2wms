@@ -8,7 +8,7 @@ module.exports = (request, response) => {
   const params = request.params
   const tms = {
     layer: params.layer,
-    format: query.Format,
+    format: params.format,
     x: params.x,
     y: invert(params.z, params.y),
     z: params.z,
