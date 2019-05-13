@@ -13,5 +13,5 @@ module.exports = (request, response) => {
     y: query.TileRow,
     format: query.Format
   }
-  response.send(tmsHandler({params: tms}, response))
+  response.send(xyzHandler({params: tms}, response))
 }

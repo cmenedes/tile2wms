@@ -1,18 +1,16 @@
-const tmsHandler = require('./tms')
+const tilegrid = require('./ol/tilegrid').createXYZ()
 
-function invert(z, y) {
-  return Math.pow(2, z) - y - 1;
+const formats = {
+  png: 'image/png',
+  pbf: 'application/x-protobuf;type=mapbox-vector'
 }
 
 module.exports = (request, response) => {
   const params = request.params
-  const tms = {
-    layer: params.layer,
-    format: params.format,
-    x: params.x,
-    y: invert(params.z, params.y),
-    z: params.z,
-    format: params.format
-  }
-  response.send(tmsHandler({params: tms}, response))
+  const extent = tilegrid.getTileCoordExtent([params.z, params.x, params.y - 1])  
+  let url = process.env.WMS_TEMPLATE_URL
+  url += `&LAYERS=${params.layer}`
+  url += `&BBOX=${extent.join(',')}`
+  url += `&FORMAT=${formats[params.format]}`
+  response.redirect(url)
 }
