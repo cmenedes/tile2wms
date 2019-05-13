@@ -11,14 +11,22 @@ const failOnWmsException = (response, wmsResponse) => {
   } else {
     response.status(status)
   }
-  response.type(contentType)  
+  response.type(contentType)
 }
 
 const proxy = (response, url) => {
   const wmsRequest = http.request(url, wmsResponse => {
+    let buffer
     failOnWmsException(response, wmsResponse)
     wmsResponse.on('data', data => {
-      response.send(data)
+      if (!buffer) {
+        buffer = data
+      } else {
+        buffer += data
+      }
+    })
+    wmsResponse.on('end', () => {
+      response.send(buffer)
     })
   })
   wmsRequest.end()

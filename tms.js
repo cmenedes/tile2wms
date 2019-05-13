@@ -13,5 +13,5 @@ module.exports = (request, response) => {
     y: invert(params),
     format: params.format
   }
-  response.send(xyzHandler({params: xyz}, response))
+  xyzHandler({params: xyz}, response)
 }

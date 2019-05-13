@@ -13,5 +13,5 @@ module.exports = (request, response) => {
     y: query.TileRow,
     format: decodeURIComponent(query.Format)
   }
-  response.send(tmsHandler({params: tms}, response))
+  tmsHandler({params: tms}, response)
 }
