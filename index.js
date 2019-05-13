@@ -5,7 +5,7 @@ const app = express()
 const port = '8088'
 const tmsHandler = require('./tms')
 const xyzHandler = require('./xyz')
-const wmtsHandler = require('./wtms')
+const wmtsHandler = require('./wmts')
 
 
 app.use((request, response, next) => {

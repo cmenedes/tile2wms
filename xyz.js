@@ -11,6 +11,6 @@ module.exports = (request, response) => {
   let url = process.env.WMS_TEMPLATE_URL
   url += `&LAYERS=${params.layer}`
   url += `&BBOX=${extent.join(',')}`
-  url += `&FORMAT=${formats[params.format]}`
+  url += `&FORMAT=${formats[params.format] || params.format}`
   response.redirect(url)
 }
