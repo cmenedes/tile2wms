@@ -19,11 +19,7 @@ const proxy = (response, url) => {
     let buffer
     failOnWmsException(response, wmsResponse)
     wmsResponse.on('data', data => {
-      if (!buffer) {
-        buffer = data
-      } else {
-        buffer += data
-      }
+      buffer = buffer ? (buffer += data) : data
     })
     wmsResponse.on('end', () => {
       response.send(buffer)
