@@ -1,7 +1,7 @@
 const xyzHandler = require('./xyz')
 
 const invert = (params) => {
-  return -(Math.pow(2, params.z) - params.y)
+  return -(Math.pow(2, params.z) - params.y - 1)
 }
 
 module.exports = (request, response) => {
