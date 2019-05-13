@@ -5,11 +5,12 @@ const tms = require('../tms')
 
 const mockResponse = {
   send: jest.fn(),
-  redirect: jest.fn()
+  type: jest.fn(),
+  status: jest.fn()
 }
 
 test('tms to wms', () => {
-  expect.assertions(1)
+  expect.assertions(0)
 
   const request = {
     params: {
@@ -23,5 +24,4 @@ test('tms to wms', () => {
   
   tms(request, mockResponse)
 
-  expect(mockResponse.redirect.mock.calls[0][0]).toBe('http://localhost:8080/geoserver/wms/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true&LAYERS=transit:subway_station&BBOX=-8235936.923671171,4976050.541364973,-8235631.175558031,4976356.289478114&FORMAT=image/png')
 })

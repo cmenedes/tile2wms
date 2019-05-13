@@ -6,8 +6,6 @@ const invert = (params) => {
 
 module.exports = (request, response) => {
   const params = request.params
-  console.warn(params);
-  
   const xyz = {
     layer: decodeURIComponent(params.layer),
     z: params.z,

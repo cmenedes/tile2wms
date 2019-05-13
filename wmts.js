@@ -6,7 +6,6 @@ function getZ(tileMatrix) {
 
 module.exports = (request, response) => {
   const query = request.query
-  console.warn(request.query,decodeURIComponent(query.Format));
   const tms = {
     layer: decodeURIComponent(query.layer),
     z: getZ(decodeURIComponent(query.TileMatrix)),

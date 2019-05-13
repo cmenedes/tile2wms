@@ -38,15 +38,16 @@
       "**/__tests__/**/*.test.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(ol)/)"
+      "(?!(ol)/)"
     ],
-    "collectCoverage": false,
+    "collectCoverage": true,
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
       "**/*.js"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
+      "/ol/",
       "/coverage/",
       "__tests__"
     ]
