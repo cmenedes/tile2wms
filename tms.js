@@ -7,8 +7,8 @@ const invert = (params) => {
 module.exports = (request, response) => {
   const params = request.params
   const tms = {
-    layer: params.layer,
-    format: params.format,
+    layer: decodeURIComponent(params.layer),
+    format: decodeURIComponent(params.format),
     z: params.z,
     x: params.x,
     y: invert(params)
