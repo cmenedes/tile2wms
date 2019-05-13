@@ -14,7 +14,6 @@ test('wmts to wms', () => {
   const request = {
     query: {
       layer: 'transit:subway_station',
-      tilematrixset: 'EPSG:900913',
       Format: 'image/png',
       TileMatrix: 'EPSG:900913:17',
       TileCol: '38599',

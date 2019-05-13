@@ -1,17 +1,19 @@
 const xyzHandler = require('./xyz')
 
 const invert = (params) => {
-  return -(Math.pow(2, params.z) - params.y - 1)
+  return -(Math.pow(2, params.z) - params.y)
 }
 
 module.exports = (request, response) => {
   const params = request.params
+  console.warn(params);
+  
   const xyz = {
     layer: decodeURIComponent(params.layer),
-    format: decodeURIComponent(params.format),
     z: params.z,
     x: params.x,
-    y: invert(params)
+    y: invert(params),
+    format: params.format
   }
   response.send(xyzHandler({params: xyz}, response))
 }

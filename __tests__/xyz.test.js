@@ -16,8 +16,8 @@ test('xyz to wms', () => {
       layer: 'transit:subway_station',
       z: '17',
       x: '38599',
-      y: '-49260',
-      format: 'png'
+      y: '49260',
+      format: 'image/png'
     }
   }
   
