@@ -6,12 +6,12 @@ const invert = (params) => {
 
 module.exports = (request, response) => {
   const params = request.params
-  const tms = {
+  const xyz = {
     layer: decodeURIComponent(params.layer),
     format: decodeURIComponent(params.format),
     z: params.z,
     x: params.x,
     y: invert(params)
   }
-  response.send(xyzHandler({params: tms}, response))
+  response.send(xyzHandler({params: xyz}, response))
 }
