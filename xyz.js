@@ -1,15 +1,33 @@
-var http = require('http')
-
+const http = require('http')
 const tilegrid = require('./ol/tilegrid').createXYZ()
 const formats = require('./formats')
+const { createLogger, format, transports } = require('winston')
+const { combine, timestamp, prettyPrint } = format
 
-const log = (request, response, wmsUrl, error) => {
-  console.error(request.originalUrl, response.statusCode, wmsUrl, error)
+const logger = createLogger({
+  level: process.env.LOG_LEVEL,
+  format: combine(
+    timestamp(),
+    prettyPrint()
+  ),
+  transports: [new transports.Console()]
+})
+
+const log = (logIt) => {
+  const data = {
+    originalUrl: logIt.request.originalUrl, 
+    statusCode: logIt.response.statusCode, 
+    wmsUrl: logIt.wmsUrl
+  }
+  if (logIt.error) {
+    data.error = logIt.error
+  }
+  logger[logIt.level](data)
+
 }
 
 const errorHandler = (request, response, wmsUrl, error) => {
   response.status(500).send()
-  log(request.originalUrl, response.statusCode, wmsUrl, error)
 }
 
 const statusAndType = (response, wmsResponse) => {
@@ -32,16 +50,28 @@ const proxy = (request, response, wmsUrl) => {
       buffer = buffer ? (buffer += data) : data
     })
     wmsResponse.on('end', () => {
-      console.warn('!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
       if (response.statusCode !== 200) {
-        log(request, response, wmsUrl, new String(buffer).toString())
+        const error =  new String(buffer).toString()
+        log({
+          level: 'error',
+          request: request, 
+          response: response,
+          wmsUrl: wmsUrl,
+          error: error
+        })
       }
       response.end()
     })
   })
   wmsRequest.on('error', error => {
     response.status(500).send()
-    log(request, response, wmsUrl)
+    log({
+      level: 'error',
+      request: request, 
+      response: response, 
+      wmsUrl: wmsUrl, 
+      error: error
+    })
   })
   wmsRequest.end()
 }
@@ -58,4 +88,11 @@ module.exports = (request, response) => {
   wmsUrl += `&FORMAT=${mimeType}` 
 
   proxy(request, response, wmsUrl)
+
+  log({
+    level: 'debug',
+    request: request,
+    response: response, 
+    wmsUrl: wmsUrl
+  })
 }
