@@ -20,7 +20,6 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
-    "isomorphic-fetch": "^2.2.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -28,6 +27,7 @@
     "babel-loader": "^8.0.5",
     "babel-preset-env": "^1.7.0",
     "coveralls": "^3.0.3",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "22.4.3",
     "nodemon": "^1.19.0"
   },
