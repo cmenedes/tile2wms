@@ -1,9 +1,9 @@
 const http = require('http')
 const tilegrid = require('./ol/tilegrid').createXYZ()
-const formats = require('./formats')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, prettyPrint } = format
 const conf = require('./conf')
+const formats = conf.formats
 
 const logger = createLogger({
   level: conf.logLevel,
