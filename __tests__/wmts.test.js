@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-const tilegrid = require('../ol/tilegrid').createXYZ()
-const wmts = require('../wmts')
+const tilegrid = require('es5ol/tilegrid').createXYZ()
+const wmts = require('../src/wmts')
 
 const mockResponse = {
   send: jest.fn(),

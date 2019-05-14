@@ -1,4 +1,4 @@
-const server = require('../index')
+const server = require('../src/index')
 const fetch = require('isomorphic-fetch')
 
 test('integration test', done => {

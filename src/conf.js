@@ -1,0 +1,5 @@
+require('dotenv').config()
+const fs = require('fs')
+const path = require('path')
+const confFile = path.resolve(__dirname, '../conf.json')
+module.exports = JSON.parse(fs.readFileSync(process.env.CONF || confFile))

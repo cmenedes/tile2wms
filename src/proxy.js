@@ -1,7 +1,5 @@
 const http = require('http')
-const tilegrid = require('es5ol/tilegrid').createXYZ()
 const conf = require('./conf')
-const formats = conf.formats
 const log = require('./logger')
 
 const errorHandler = (request, response, wmsUrl, error) => {
@@ -25,7 +23,7 @@ const statusAndHeaders = (response, wmsResponse) => {
   })
 }
 
-const proxy = (request, response, wmsUrl) => {
+module.exports = (request, response, wmsUrl) => {
   const wmsRequest = http.request(wmsUrl, wmsResponse => {
     let buffer
     statusAndHeaders(response, wmsResponse)
@@ -65,22 +63,4 @@ const proxy = (request, response, wmsUrl) => {
     })
   })
   wmsRequest.end()
-}
-
-const getTemplate = layer => {
-  return conf.layerWmsTemplates[layer] || conf.defaultWmsTemplate
-}
-
-module.exports = (request, response) => {
-  const env = process.env
-  const params = request.params
-  const mimeType = formats[params.format] || params.format
-  const extent = tilegrid.getTileCoordExtent([params.z * 1, params.x * 1, -(Math.abs(params.y) + 1)])  
-
-  let wmsUrl = getTemplate(params.layer)
-  wmsUrl += `&LAYERS=${params.layer}`
-  wmsUrl += `&BBOX=${extent.join(',')}`
-  wmsUrl += `&FORMAT=${mimeType}` 
-
-  proxy(request, response, wmsUrl)
 }

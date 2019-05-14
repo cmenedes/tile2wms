@@ -2,10 +2,10 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
-const tmsHandler = require('./tms')
-const xyzHandler = require('./xyz')
-const wmtsHandler = require('./wmts')
-const conf = require('./conf')
+const tmsHandler = require('./src/tms')
+const xyzHandler = require('./src/xyz')
+const wmtsHandler = require('./src/wmts')
+const conf = require('./src/conf')
 const port = conf.port || 8088
 
 app.use((request, response, next) => {

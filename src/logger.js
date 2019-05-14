@@ -1,3 +1,4 @@
+const conf = require('./conf')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, prettyPrint } = format
 
