@@ -14,7 +14,7 @@ const failOnWmsException = (response, wmsResponse) => {
   response.type(contentType)
 }
 
-const proxy = (response, url) => {
+const proxy = (request, response, url) => {
   const wmsRequest = http.request(url, wmsResponse => {
     let buffer
     failOnWmsException(response, wmsResponse)
@@ -22,7 +22,11 @@ const proxy = (response, url) => {
       buffer = buffer ? (buffer += data) : data
     })
     wmsResponse.on('end', () => {
+      if (response.statusCode !== 200) {
+        console.log(request.originalUrl, new String(buffer).toString())
+      }
       response.send(buffer)
+      response.end()
     })
   })
   wmsRequest.end()
@@ -39,5 +43,5 @@ module.exports = (request, response) => {
   url += `&BBOX=${extent.join(',')}`
   url += `&FORMAT=${mimeType}` 
 
-  proxy(response, url)
+  proxy(request, response, url)
 }

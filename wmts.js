@@ -6,12 +6,12 @@ function getZ(tileMatrix) {
 
 module.exports = (request, response) => {
   const query = request.query
-  const tms = {
+  request.params = {
     layer: decodeURIComponent(query.layer),
     z: getZ(decodeURIComponent(query.TileMatrix)),
     x: query.TileCol,
     y: query.TileRow,
     format: decodeURIComponent(query.Format)
   }
-  tmsHandler({params: tms}, response)
+  tmsHandler(request, response)
 }
