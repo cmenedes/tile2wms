@@ -59,7 +59,7 @@ const proxy = (request, response, wmsUrl) => {
     })
     wmsResponse.on('end', () => {
       if (response.statusCode !== 200) {
-        const error =  new String(buffer).toString()
+        const error = new String(buffer).toString()
         log({
           level: 'error',
           request: request, 
