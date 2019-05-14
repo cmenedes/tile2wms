@@ -10,5 +10,5 @@
 * Default configuration is loaded from `conf.json`
 * Override configurations be specifying a different conf file in `.env` as `CONF=/path/to/file`
 
-## Run 
-# `yarn start`
+### Run 
+* `yarn start`
