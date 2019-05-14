@@ -3,6 +3,9 @@ const tilegrid = require('./ol/tilegrid').createXYZ()
 const formats = require('./formats')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, prettyPrint } = format
+const fs = require('fs')
+
+const conf = JSON.parse(fs.readFileSync(process.env.CONF))
 
 const logger = createLogger({
   level: process.env.LOG_LEVEL,
@@ -33,20 +36,18 @@ const errorHandler = (request, response, wmsUrl, error) => {
 const statusAndHeaders = (response, wmsResponse) => {
   const status = wmsResponse.statusCode
   const contentType = wmsResponse.headers['content-type']
-  const server = wmsResponse.headers['server']
-  const xserver = wmsResponse.headers['xserver']
   if (status === 200 && contentType.indexOf('xml') > -1) {
     response.status(500)
   } else {
     response.status(status)
   }
-  if (server) {
-    response.header('server', server)
-  }
-  if (xserver) {
-    response.header('xserver', xserver)
-  }
   response.type(contentType)
+  conf.copyHeaders.forEach(header => {
+    const value = wmsResponse.headers[header]  
+    if (value) {
+      response.header(header, value)
+    }
+  })
 }
 
 const proxy = (request, response, wmsUrl) => {
@@ -91,13 +92,17 @@ const proxy = (request, response, wmsUrl) => {
   wmsRequest.end()
 }
 
+const getTemplate = layer => {
+  return conf.layerWmsTemplates[layer] || conf.defaultWmsTemplate
+}
+
 module.exports = (request, response) => {
   const env = process.env
   const params = request.params
   const mimeType = formats[params.format] || params.format
   const extent = tilegrid.getTileCoordExtent([params.z * 1, params.x * 1, -(Math.abs(params.y) + 1)])  
 
-  let wmsUrl = env.WMS_URL_TEMPLATE
+  let wmsUrl = getTemplate(params.layer)
   wmsUrl += `&LAYERS=${params.layer}`
   wmsUrl += `&BBOX=${extent.join(',')}`
   wmsUrl += `&FORMAT=${mimeType}` 
