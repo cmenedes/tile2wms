@@ -30,13 +30,21 @@ const errorHandler = (request, response, wmsUrl, error) => {
   response.status(500).send()
 }
 
-const statusAndType = (response, wmsResponse) => {
+const statusAndHeaders = (response, wmsResponse) => {
   const status = wmsResponse.statusCode
   const contentType = wmsResponse.headers['content-type']
+  const server = wmsResponse.headers['server']
+  const xserver = wmsResponse.headers['xserver']
   if (status === 200 && contentType.indexOf('xml') > -1) {
     response.status(500)
   } else {
     response.status(status)
+  }
+  if (server) {
+    response.header('server', server)
+  }
+  if (xserver) {
+    response.header('xserver', xserver)
   }
   response.type(contentType)
 }
@@ -44,7 +52,7 @@ const statusAndType = (response, wmsResponse) => {
 const proxy = (request, response, wmsUrl) => {
   const wmsRequest = http.request(wmsUrl, wmsResponse => {
     let buffer
-    statusAndType(response, wmsResponse)
+    statusAndHeaders(response, wmsResponse)
     wmsResponse.on('data', data => {
       response.write(data)
       buffer = buffer ? (buffer += data) : data
