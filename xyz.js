@@ -1,30 +1,8 @@
 const http = require('http')
 const tilegrid = require('es5ol/tilegrid').createXYZ()
-const { createLogger, format, transports } = require('winston')
-const { combine, timestamp, prettyPrint } = format
 const conf = require('./conf')
 const formats = conf.formats
-
-const logger = createLogger({
-  level: conf.logLevel,
-  format: combine(
-    timestamp(),
-    prettyPrint()
-  ),
-  transports: [new transports.Console()]
-})
-
-const log = (args) => {
-  const data = {
-    originalUrl: args.request.originalUrl, 
-    statusCode: args.response.statusCode, 
-    wmsUrl: args.wmsUrl
-  }
-  if (args.error) {
-    data.error = args.error
-  }
-  logger[args.level](data)
-}
+const log = require('./logger')
 
 const errorHandler = (request, response, wmsUrl, error) => {
   response.status(500).send()
