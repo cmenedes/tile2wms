@@ -67,6 +67,13 @@ const proxy = (request, response, wmsUrl) => {
           wmsUrl: wmsUrl,
           error: error
         })
+      } else {
+        log({
+          level: 'debug',
+          request: request,
+          response: response, 
+          wmsUrl: wmsUrl
+        })        
       }
       response.end()
     })
@@ -96,11 +103,4 @@ module.exports = (request, response) => {
   wmsUrl += `&FORMAT=${mimeType}` 
 
   proxy(request, response, wmsUrl)
-
-  log({
-    level: 'debug',
-    request: request,
-    response: response, 
-    wmsUrl: wmsUrl
-  })
 }
