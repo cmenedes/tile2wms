@@ -3,12 +3,10 @@ const tilegrid = require('./ol/tilegrid').createXYZ()
 const formats = require('./formats')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, prettyPrint } = format
-const fs = require('fs')
-
-const conf = JSON.parse(fs.readFileSync(process.env.CONF))
+const conf = require('./conf')
 
 const logger = createLogger({
-  level: process.env.LOG_LEVEL,
+  level: conf.logLevel,
   format: combine(
     timestamp(),
     prettyPrint()
@@ -16,17 +14,16 @@ const logger = createLogger({
   transports: [new transports.Console()]
 })
 
-const log = (logIt) => {
+const log = (args) => {
   const data = {
-    originalUrl: logIt.request.originalUrl, 
-    statusCode: logIt.response.statusCode, 
-    wmsUrl: logIt.wmsUrl
+    originalUrl: args.request.originalUrl, 
+    statusCode: args.response.statusCode, 
+    wmsUrl: args.wmsUrl
   }
-  if (logIt.error) {
-    data.error = logIt.error
+  if (args.error) {
+    data.error = args.error
   }
-  logger[logIt.level](data)
-
+  logger[args.level](data)
 }
 
 const errorHandler = (request, response, wmsUrl, error) => {

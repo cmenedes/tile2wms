@@ -5,8 +5,7 @@ const app = express()
 const tmsHandler = require('./tms')
 const xyzHandler = require('./xyz')
 const wmtsHandler = require('./wmts')
-const fs = require('fs')
-const conf = JSON.parse(fs.readFileSync(process.env.CONF))
+const conf = require('./conf')
 const port = conf.port || 8088
 
 app.use((request, response, next) => {
