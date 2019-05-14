@@ -1,8 +1,8 @@
+const fetch = require('isomorphic-fetch')
+
 jest.mock('../src/tms')
 jest.mock('../src/wmts')
 jest.mock('../src/xyz')
-
-const fetch = require('isomorphic-fetch')
 
 let app
 beforeEach(() => {
