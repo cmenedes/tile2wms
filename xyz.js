@@ -1,5 +1,5 @@
 const http = require('http')
-const tilegrid = require('./ol/tilegrid').createXYZ()
+const tilegrid = require('es5ol/tilegrid').createXYZ()
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, prettyPrint } = format
 const conf = require('./conf')
