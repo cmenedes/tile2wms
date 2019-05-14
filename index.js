@@ -2,11 +2,12 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
-const tmsHandler = require('./src/tms')
-const xyzHandler = require('./src/xyz')
-const wmtsHandler = require('./src/wmts')
 const conf = require('./src/conf')
 const port = conf.port || 8088
+
+app.tmsHandler = require('./src/tms')
+app.xyzHandler = require('./src/xyz')
+app.wmtsHandler = require('./src/wmts')
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', '*')
@@ -14,10 +15,10 @@ app.use((request, response, next) => {
   next()
 })
 
-app.get('/tms/:layer/:z/:x/:y.:format', tmsHandler)
+app.get('/tms/:layer/:z/:x/:y.:format', app.tmsHandler)
+app.get('/xyz/:layer/:z/:x/:y.:format', app.xyzHandler)
+app.get('/wmts/', app.wmtsHandler)
 
-app.get('/xyz/:layer/:z/:x/:y.:format', xyzHandler)
+app.server = app.listen(port, () => console.log(`tile2wms app listening on port ${port}`))
 
-app.get('/wmts/', wmtsHandler)
-
-module.exports = app.listen(port, () => console.log(`tile2wms app listening on port ${port}`))
+module.exports = app
