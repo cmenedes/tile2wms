@@ -4,14 +4,22 @@ function getZ(tileMatrix) {
   return tileMatrix.split(':')[2]
 }
 
+function lowerCaseKeys(query) {
+  const lower = {}
+  Object.keys(query).forEach(key => {
+    lower[key.toLocaleLowerCase()] = query[key]
+  })
+  return lower
+}
+
 module.exports = (request, response) => {
-  const query = request.query
+  const query = lowerCaseKeys(request.query)
   request.params = {
-    layer: decodeURIComponent(query.layer),
-    z: getZ(decodeURIComponent(query.TileMatrix)),
-    x: query.TileCol,
-    y: query.TileRow,
-    format: decodeURIComponent(query.Format)
+    layer: query.layer,
+    z: getZ(query.tilematrix),
+    x: query.tilecol,
+    y: query.tilerow,
+    format: query.format
   }
   tmsHandler(request, response)
 }
