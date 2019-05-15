@@ -10,8 +10,10 @@ app.xyzHandler = require('./src/xyz')
 app.wmtsHandler = require('./src/wmts')
 
 app.use((request, response, next) => {
-  response.header('Access-Control-Allow-Origin', '*')
-  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  const headers = conf.headers;
+  Object.keys(headers).forEach(header => {
+    response.header(header, headers[header])
+  })
   next()
 })
 

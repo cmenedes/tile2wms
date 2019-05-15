@@ -16,7 +16,7 @@ const statusAndHeaders = (response, wmsResponse) => {
     response.status(status)
   }
   response.type(contentType)
-  conf.copyHeaders.forEach(header => {
+  conf.copyFromWmsHeaders.forEach(header => {
     const value = wmsResponse.headers[header]  
     if (value) {
       response.header(header, value)
