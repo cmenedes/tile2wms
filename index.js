@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const conf = require('./src/conf')
-const port = conf.port || 8088
+const port = conf.port
 
 app.tmsHandler = require('./src/tms')
 app.xyzHandler = require('./src/xyz')
