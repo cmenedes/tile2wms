@@ -35,14 +35,13 @@ const proxy = (request, response, wmsUrl) => {
     wmsResponse.on('end', () => {
       if (response.statusCode !== STATUS.OK) {
         const error = new String(buffer).toString()
-        log({evel: 'error', request, response, wmsUrl, error})
+        log({level: 'error', request, response, wmsUrl, error})
       } else {
         log({level: 'debug', request, response, wmsUrl})        
       }
       response.end()
     })
   })
-  console.warn(wmsRequest)
   wmsRequest.on('error', error => {
     response.status(STATUS.ERROR).send()
     log({level: 'error', request, response, wmsUrl, error})

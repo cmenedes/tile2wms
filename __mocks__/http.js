@@ -1,27 +1,30 @@
 class MockRequest {
   constructor() {
     this.handlers = {}
+    this.end = jest.fn().mockImplementation(() => {
+      if (this.handlers.end) {
+        this.handlers.end()
+      }
+    })
   }
   on(event, callback) {
     this.handlers[event] = callback
-  }
-  end() {
-    if (this.handlers.end) {
-      this.handlers.end()
-    }
   }
 }
 
-class MockResponse {
+class MockResponse extends MockRequest {
   constructor() {
-    this.handlers = {}
+    super()
     this.write = jest.fn()
     this.send = jest.fn()
-    this.status = jest.fn()
     this.type = jest.fn()
+    this.header = jest.fn()
+    this.status = jest.fn().mockImplementation(statusCode => {
+      this.statusCode = statusCode
+    })
   }
-  on(event, callback) {
-    this.handlers[event] = callback
+  data(data) {
+    this.handlers.data(data)
   }
 }
 
@@ -34,12 +37,22 @@ const http = {
   },
   request: jest.fn().mockImplementation((url, callback) => {
     setTimeout(() => {
-      callback(http.mockResponse())
+      const response = new MockResponse()
+      response.headers = http.headers
+      response.statusCode = http.statusCode
+      http.wmsResponse = response
+      callback(response)
     }, 100)
-    return http.mockRequest()
+    const request = new MockRequest()
+    http.wmsRequest = request
+    return request
   }),
   resetMocks: () => {
     http.request.mockClear()
+    http.headers = undefined
+    http.statusCode = undefined
+    http.wmsResponse = undefined
+    http.wmsRequest = undefined
   }
 }
 
