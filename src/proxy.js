@@ -43,7 +43,8 @@ const proxy = (request, response, wmsUrl) => {
     })
   })
   wmsRequest.on('error', error => {
-    response.status(STATUS.ERROR).send()
+    response.status(STATUS.ERROR)
+    response.send()
     log({level: 'error', request, response, wmsUrl, error})
   })
   wmsRequest.end()

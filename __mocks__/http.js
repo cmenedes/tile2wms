@@ -10,6 +10,9 @@ class MockRequest {
   on(event, callback) {
     this.handlers[event] = callback
   }
+  error() {
+    this.handlers.error('error')
+  }
 }
 
 class MockResponse extends MockRequest {
@@ -36,15 +39,21 @@ const http = {
     return new MockResponse()
   },
   request: jest.fn().mockImplementation((url, callback) => {
-    setTimeout(() => {
-      const response = new MockResponse()
-      response.headers = http.headers
-      response.statusCode = http.statusCode
-      http.wmsResponse = response
-      callback(response)
-    }, 100)
     const request = new MockRequest()
     http.wmsRequest = request
+    if (!http.throwError) {
+      setTimeout(() => {
+        const response = new MockResponse()
+        response.headers = http.headers
+        response.statusCode = http.statusCode
+        http.wmsResponse = response
+        callback(response)
+      }, 100)
+    } else {
+      setTimeout(() => {
+        http.wmsRequest.error()
+      })
+    }
     return request
   }),
   resetMocks: () => {
@@ -53,6 +62,7 @@ const http = {
     http.statusCode = undefined
     http.wmsResponse = undefined
     http.wmsRequest = undefined
+    http.throwError = false
   }
 }
 
