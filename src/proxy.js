@@ -1,6 +1,6 @@
 const http = require('http')
 const conf = require('./conf')
-const log = require('./logger')
+const log = require('./logger').log
 
 const STATUS = {
   OK: 200,
