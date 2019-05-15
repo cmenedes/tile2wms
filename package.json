@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "rm -rf ./node_modules/es5ol && yarn transpile",
     "transpile": "babel ./node_modules/ol -d ./node_modules/es5ol",
     "start": "nodemon index.js",
     "test": "jest test"
