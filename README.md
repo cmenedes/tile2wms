@@ -12,7 +12,7 @@
   * Writes the WMS response to the response of the original tile request.
 
 ### Configuration
-  * A default configuration `conf.json` is loaded from the project root
+  * A default configuration `conf.json` is loaded from the project root.
   * A custom configuration is specified as the environment variable `CONF=path/to/myconf.json`
 
 ### Install
