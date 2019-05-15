@@ -1,5 +1,5 @@
 # tile2wms
-Receives Web Mercator map tile requests as [Tile Map Service (TMS)](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification), [Slippy Tiles (XYZ)](https://en.wikipedia.org/wiki/Tiled_web_map) and Web Map Tile Service (WMTS) based requests and converts them to WMS requests issued to a configured server.  The WMS response is written to response of the original request.
+Receives Web Mercator map tile requests as [Tile Map Service (TMS)](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification), [Slippy Tiles (XYZ)](https://en.wikipedia.org/wiki/Tiled_web_map) and [Web Map Tile Service (WMTS)](https://www.opengeospatial.org/standards/wmts) based requests and converts them to WMS requests issued to a configured server.  The WMS response is written to response of the original request.
 
 ### Install
 * `yarn install`
@@ -11,3 +11,4 @@ Receives Web Mercator map tile requests as [Tile Map Service (TMS)](https://wiki
 ### Run 
 * `yarn start`
 https://en.wikipedia.org/wiki/Tiled_web_map
+https://www.opengeospatial.org/standards/wmts
