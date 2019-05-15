@@ -1,5 +1,5 @@
 # tile2wms
-Receives Web Mercator map tile requests in the follwing formats:
+Receives [Web Mercator (EPSG:3857)](https://epsg.io/3857) map tile requests in the follwing formats:
   * [Tile Map Service (TMS)](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification)
   * [Slippy Tiles (XYZ)](https://en.wikipedia.org/wiki/Tiled_web_map) 
   * [Web Map Tile Service (WMTS)](https://www.opengeospatial.org/standards/wmts) 
