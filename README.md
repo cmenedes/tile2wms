@@ -1,4 +1,5 @@
 # tile2wms
+Receives Web Mercator map tile requests as Tile Map Service (TMS), Slippy Tiles (XYZ) and Web Map Tile Service (WMTS) based requests and converts them to WMS requests issued to a configured server.  The WMS response is written to response of the original request.
 
 ### Install
 * `yarn install`
