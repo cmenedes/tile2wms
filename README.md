@@ -5,7 +5,7 @@
   * [Web Map Tile Service (WMTS)](https://www.opengeospatial.org/standards/wmts) 
 
 ### Responds to tile reqests as follows:
-  * Converts tile requests to [Web Map Service (WMS)](https://www.opengeospatial.org/standards/wms) requests.
+  * Converts tile request to [Web Map Service (WMS)](https://www.opengeospatial.org/standards/wms) request.
   * Issues WMS request to a pre-configured server.  
   * Writes headers to the response of the original tile request based on configuration.
   * Copies headers from the WMS resonse to the response of the original tile request based on configuration.
