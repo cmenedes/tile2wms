@@ -24,5 +24,3 @@
 
 ### Run 
 * `yarn start`
-https://en.wikipedia.org/wiki/Tiled_web_map
-https://www.opengeospatial.org/standards/wmts
