@@ -23,7 +23,7 @@ const statusAndHeaders = (response, wmsResponse) => {
   })
 }
 
-module.exports = (request, response, wmsUrl) => {
+const proxy = (request, response, wmsUrl) => {
   const wmsRequest = http.request(wmsUrl, wmsResponse => {
     let buffer
     statusAndHeaders(response, wmsResponse)
@@ -64,3 +64,7 @@ module.exports = (request, response, wmsUrl) => {
   })
   wmsRequest.end()
 }
+
+proxy.log = log
+
+module.exports = proxy

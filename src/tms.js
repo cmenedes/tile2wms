@@ -4,7 +4,7 @@ const invert = (params) => {
   return -(Math.pow(2, params.z) - params.y - 1)
 }
 
-module.exports = (request, response) => {
+const tmsHandler = (request, response) => {
   const params = request.params
   request.params = {
     layer: decodeURIComponent(params.layer),
@@ -15,3 +15,7 @@ module.exports = (request, response) => {
   }
   xyzHandler(request, response)
 }
+
+tmsHandler.xyzHandler = xyzHandler
+
+module.exports = tmsHandler

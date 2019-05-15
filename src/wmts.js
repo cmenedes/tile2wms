@@ -12,7 +12,7 @@ function lowerCaseKeys(query) {
   return lower
 }
 
-module.exports = (request, response) => {
+const wmtsHandler = (request, response) => {
   const query = lowerCaseKeys(request.query)
   request.params = {
     layer: query.layer,
@@ -23,3 +23,7 @@ module.exports = (request, response) => {
   }
   tmsHandler(request, response)
 }
+
+wmtsHandler.tmsHandler = tmsHandler
+
+module.exports = wmtsHandler

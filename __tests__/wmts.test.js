@@ -1,16 +1,15 @@
+jest.mock('../src/tms')
+
 require('dotenv').config()
 
-const tilegrid = require('es5ol/tilegrid').createXYZ()
 const wmts = require('../src/wmts')
 
 const mockResponse = {
-  send: jest.fn(),
-  type: jest.fn(),
-  status: jest.fn()
+  send: jest.fn()
 }
 
 test('wmts to wms', () => {
-  expect.assertions(0)
+  expect.assertions(10)
 
   const request = {
     query: {
@@ -24,5 +23,14 @@ test('wmts to wms', () => {
   
   wmts(request, mockResponse)
 
-
+  expect(wmts.tmsHandler).toHaveBeenCalledTimes(1)
+  expect(wmts.tmsHandler.mock.calls[0][0]).toBe(request)
+  expect(wmts.tmsHandler.mock.calls[0][0].params.layer).toBe('transit:subway_station')
+  expect(wmts.tmsHandler.mock.calls[0][0].params.z).toBe('17')
+  expect(wmts.tmsHandler.mock.calls[0][0].params.x).toBe('38599')
+  expect(wmts.tmsHandler.mock.calls[0][0].params.y).toBe('81811')
+  expect(wmts.tmsHandler.mock.calls[0][0].params.format).toBe('image/png')
+  expect(wmts.tmsHandler.mock.calls[0][1]).toBe(mockResponse)
+  expect(mockResponse.send).toHaveBeenCalledTimes(1)
+  expect(mockResponse.send.mock.calls[0][0]).toBe('tms')
 })

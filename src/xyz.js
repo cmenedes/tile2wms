@@ -3,7 +3,7 @@ const proxy = require('./proxy')
 const conf = require('./conf')
 const formats = conf.formats
 
-module.exports = (request, response) => {
+const xyzHandler = (request, response) => {
   const params = request.params
   const layer = params.layer
   const mimeType = formats[params.format] || params.format
@@ -14,3 +14,7 @@ module.exports = (request, response) => {
   wmsUrl += `&FORMAT=${mimeType}` 
   proxy(request, response, wmsUrl)
 }
+
+xyzHandler.proxy = proxy
+
+module.exports = xyzHandler
