@@ -7,7 +7,7 @@
 ### Responds to tile reqests as follows:
   * Converts tile requests to [Web Map Service (WMS)](https://www.opengeospatial.org/standards/wms) .
   * Issues WMS request to a pre-configured server.  
-  * Writes CORS headers to the response of the original tile request.
+  * Writes headers to the response of the original tile request based on configuration.
   * Copies headers from the WMS resonse to the response of the original tile request based on configuration.
   * Writes the WMS response to the response of the original tile request.
 
