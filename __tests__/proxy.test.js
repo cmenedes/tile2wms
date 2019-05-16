@@ -16,6 +16,7 @@ beforeEach(() => {
 test('proxy happy path', done => {
   expect.assertions(19)
 
+  /* set up WMS mock response */
   proxy.http.headers = {'content-type': 'image/png', 'server': 'fred', "wilma": "pebbles"}
   proxy.http.statusCode = 200
 
@@ -34,6 +35,7 @@ test('proxy happy path', done => {
     expect(mockExpressResponse.header.mock.calls[0][0]).toBe('server')
     expect(mockExpressResponse.header.mock.calls[0][1]).toBe('fred')
     
+    /* mock data transfer to WMS response */
     proxy.http.wmsResponse.data(1)
     proxy.http.wmsResponse.data(2)
 
@@ -41,6 +43,7 @@ test('proxy happy path', done => {
     expect(mockExpressResponse.write.mock.calls[0][0]).toBe(1)
     expect(mockExpressResponse.write.mock.calls[1][0]).toBe(2)
 
+    /* mock completion on WMS request/response */
     proxy.http.wmsResponse.end()
 
     expect(proxy.log).toHaveBeenCalledTimes(1)
@@ -57,6 +60,7 @@ test('proxy happy path', done => {
 test('proxy wms error response from wms server', done => {
   expect.assertions(20)
 
+  /* set up WMS mock response */
   proxy.http.headers = {'content-type': 'text/xml', 'server': 'fred'}
   proxy.http.statusCode = 200
 
@@ -75,6 +79,7 @@ test('proxy wms error response from wms server', done => {
     expect(mockExpressResponse.header.mock.calls[0][0]).toBe('server')
     expect(mockExpressResponse.header.mock.calls[0][1]).toBe('fred')
     
+    /* mock data transfer to WMS response */
     proxy.http.wmsResponse.data('wms ')
     proxy.http.wmsResponse.data('error')
 
@@ -82,6 +87,7 @@ test('proxy wms error response from wms server', done => {
     expect(mockExpressResponse.write.mock.calls[0][0]).toBe('wms ')
     expect(mockExpressResponse.write.mock.calls[1][0]).toBe('error')
 
+    /* mock completion on WMS request/response */
     proxy.http.wmsResponse.end()
 
     expect(proxy.log).toHaveBeenCalledTimes(1)
@@ -100,6 +106,7 @@ test('proxy wms error response from wms server', done => {
 test('proxy 500 error response from wms server', done => {
   expect.assertions(20)
 
+  /* set up WMS mock response */
   proxy.http.headers = {'content-type': 'text/html', 'server': 'fred'}
   proxy.http.statusCode = 500
 
@@ -118,6 +125,7 @@ test('proxy 500 error response from wms server', done => {
     expect(mockExpressResponse.header.mock.calls[0][0]).toBe('server')
     expect(mockExpressResponse.header.mock.calls[0][1]).toBe('fred')
     
+    /* mock data transfer to WMS response */
     proxy.http.wmsResponse.data('500 ')
     proxy.http.wmsResponse.data('error')
 
@@ -125,6 +133,7 @@ test('proxy 500 error response from wms server', done => {
     expect(mockExpressResponse.write.mock.calls[0][0]).toBe('500 ')
     expect(mockExpressResponse.write.mock.calls[1][0]).toBe('error')
 
+    /* mock completion on WMS request/response */
     proxy.http.wmsResponse.end()
 
     expect(proxy.log).toHaveBeenCalledTimes(1)
@@ -143,6 +152,7 @@ test('proxy 500 error response from wms server', done => {
 test('wms request failure', done => {
   expect.assertions(10)
 
+  /* set up WMS mock request to fail */
   proxy.http.throwError = true
 
   proxy(mockExpressRequest, mockExpressResponse, wmsUrl)
