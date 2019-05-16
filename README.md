@@ -13,14 +13,10 @@
 
 ### Configuration
   * A default configuration `conf.json` is loaded from the project root.
-  * A custom configuration is specified as the environment variable `CONF=path/to/myconf.json`
+  * Override configuration by specifying a different conf file in `.env` as `CONF=/path/to/file`.
 
 ### Install
 * `yarn install`
-
-### Configuration
-* Default configuration is loaded from `conf.json`
-* Override configuration by specifying a different conf file in `.env` as `CONF=/path/to/file`
 
 ### Run 
 * `yarn start`
