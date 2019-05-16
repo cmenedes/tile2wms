@@ -15,6 +15,30 @@
   * A default configuration `conf.json` is loaded from the project root.
   * Override configuration by specifying a different conf file in `.env` as `CONF=/path/to/file`.
 
+```
+{
+  "logLevel": "warn",
+  "port": 8080,
+  "defaultWmsTemplate": "http://localhost:8080/geoserver/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true",
+  "layerWmsTemplates": {
+    "a-layer": "https://a-different-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true",
+    "another-layer": "https://another-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true"
+  },
+  "headers": {
+    "access-control-allow-origin": "*",
+    "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept"
+  },
+  "copyFromWmsHeaders": ["b-header", "c-header"],
+  "formats": {
+    "png": "image/png",
+    "png8": "image/png8",
+    "pbf": "application/x-protobuf;type=mapbox-vector",
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg"
+  }
+}
+```
+
 ### Install
 * `yarn install`
 
