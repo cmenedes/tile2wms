@@ -15,7 +15,7 @@
   * A default configuration `conf.json` is loaded from the project root.
   * Override configuration by specifying a different conf file in `.env` as `CONF=/path/to/file`.
 
-  ```json
+  ```
   {
     "logLevel": "warn",
     "port": 8080,
@@ -36,7 +36,8 @@
       "jpg": "image/jpeg",
       "jpeg": "image/jpeg"
     }
-  }```
+  }
+  ```
   
   #### Configuration properties:
     * loglevel The log level
