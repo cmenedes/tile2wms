@@ -48,7 +48,7 @@
      * `HEIGHT=256`
      * `CRS=EPSG:900913` or `CRS=EPSG:3857`
    * `headers` A map of headers to set on responses. If no headers are desired use `{}`.
-   * `copyFromWmsHeaders` An array of header names to copy from the WMS response. If no headers are to be copied use  `[]`.
+   * `copyFromWmsHeaders` An array of header names to copy from the WMS response. To copy no headers use  `[]`.
    * `formats` A map of file extensions to mime types.
 
 ### Install
