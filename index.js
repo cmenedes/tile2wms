@@ -5,6 +5,9 @@ const app = express()
 const conf = require('./src/conf')
 const port = conf.port
 
+console.log(`Loaded conf.json from ${process.env.CONF}`)
+console.log(conf)
+
 app.tmsHandler = require('./src/tms')
 app.xyzHandler = require('./src/xyz')
 app.wmtsHandler = require('./src/wmts')
