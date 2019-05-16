@@ -19,7 +19,7 @@ test('conf location in code', () => {
 
 test('conf location in env', () => {
   expect.assertions(2)
-  process.env['CONF'] = testFile
+  process.env.CONF = testFile
   const conf = require('../src/conf')
   expect(conf).not.toEqual(defaultConf)
   expect(conf).toEqual(testConf)
