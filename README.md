@@ -38,7 +38,7 @@
     }
   }
   ```
-  * Configuration properties:
+  #### Configuration properties:
     * `loglevel` The log level
     * `port` Port on which to run express server
     * `defaultWmsTemplate` The default template for making WMS requests.  Must include the following querystring parameters:
