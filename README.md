@@ -36,8 +36,7 @@
       "jpg": "image/jpeg",
       "jpeg": "image/jpeg"
     }
-  }
-  ```
+  }```
   
   #### Configuration properties:
     * loglevel The log level
