@@ -1,0 +1,20 @@
+{
+  "logLevel": "warn",
+  "port": 8080,
+  "defaultWmsTemplate": "http://geoserver",
+  "layerWmsTemplates": {
+    "a-layer": "https://a-different-server"
+  },
+  "headers": {
+    "a-header": "a-value",
+    "another-header": "another-value"
+  },
+  "copyFromWmsHeaders": ["b-header", "c-header"],
+  "formats": {
+    "png": "image/png",
+    "png8": "image/png8",
+    "pbf": "application/x-protobuf;type=mapbox-vector",
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg"
+  }
+}

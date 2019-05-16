@@ -1,3 +1,11 @@
+const fs = require('fs')
+const path = require('path')
+
+const defaultFile = path.resolve(__dirname, '../conf.json')
+const testFile = path.resolve(__dirname, 'test-conf.json')
+const defaultConf = JSON.parse(fs.readFileSync(defaultFile))
+const testConf = JSON.parse(fs.readFileSync(testFile))
+
 beforeEach(() => {
   jest.resetModules()
 })
@@ -6,13 +14,12 @@ test('conf location in code', () => {
   expect.assertions(1)
   process.env['CONF'] = ''
   const conf = require('../src/conf')
-  expect(Object.keys(conf).length).toBe(7)
+  expect(conf).toEqual(defaultConf)
 })
 
 test('conf location in env', () => {
-  expect.assertions(2)
-  process.env['CONF'] = __dirname + '/conf-ex.json'
+  expect.assertions(1)
+  process.env['CONF'] = testFile
   const conf = require('../src/conf')
-  expect(conf).toEqual({ "conf-example": "mockValue" })
-  expect(Object.keys(conf).length).toBe(1)
+  expect(conf).toEqual(testConf)
 })
