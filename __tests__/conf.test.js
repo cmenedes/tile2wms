@@ -12,7 +12,7 @@ beforeEach(() => {
 
 test('conf location in code', () => {
   expect.assertions(1)
-  process.env['CONF'] = ''
+  process.env.CONF = ''
   const conf = require('../src/conf')
   expect(conf).toEqual(defaultConf)
 })
