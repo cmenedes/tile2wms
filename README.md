@@ -28,7 +28,7 @@
       "access-control-allow-origin": "*",
       "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept"
     },
-    "copyFromWmsHeaders": ["b-header", "c-header"],
+    "copyFromWmsHeaders": ["a-header", "another-header"],
     "formats": {
       "png": "image/png",
       "png8": "image/png8",
