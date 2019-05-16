@@ -15,7 +15,7 @@
   * A default configuration `conf.json` is loaded from the project root.
   * Override configuration by specifying a different conf file in `.env` as `CONF=/path/to/file`.
 
-  ```
+  ```json
   {
     "logLevel": "warn",
     "port": 8080,
@@ -39,17 +39,17 @@
   }
   ```
   
-  #### Configuration properties:
-    * loglevel The log level
-    * port Port on which to run express server
-    * defaultWmsTemplate The default template for making WMS requests.  Must include the following querystring parameters:
-      * REQUEST=GetMap
-      * WIDTH=256
-      * HEIGHT=256
-      * CRS=EPSG:900913 or CRS=EPSG:3857
-    * headers A map of headers to set on responses.  {} if no headers are desired.
-    * copyFromWmsHeaders An array of header names to copy from the WMS response. [] if no headers are to be copied.
-    * formats A map of file extensions to mime types.
+ #### Configuration properties:
+   * loglevel The log level
+   * port Port on which to run express server
+   * defaultWmsTemplate The default template for making WMS requests.  Must include the following querystring parameters:
+     * REQUEST=GetMap
+     * WIDTH=256
+     * HEIGHT=256
+     * CRS=EPSG:900913 or CRS=EPSG:3857
+   * headers A map of headers to set on responses.  {} if no headers are desired.
+   * copyFromWmsHeaders An array of header names to copy from the WMS response. [] if no headers are to be copied.
+   * formats A map of file extensions to mime types.
 
 ### Install
 * `yarn install`
