@@ -1,30 +1,11 @@
-const http = require('http')
 const conf = require('./conf')
+const http = require('http')
+const proxyToWmsAndCrop = require('./crop')
+const statusAndHeaders = require('./statusAndHeaders')
+const STATUS = statusAndHeaders.STATUS
 const log = require('./logger').log
 
-const STATUS = {
-  OK: 200,
-  ERROR: 500
-}
-
-const statusAndHeaders = (response, wmsResponse) => {
-  const status = wmsResponse.statusCode
-  const contentType = wmsResponse.headers['content-type']
-  if (status === STATUS.OK && contentType.indexOf('xml') > -1) {
-    response.status(STATUS.ERROR)
-  } else {
-    response.status(status)
-  }
-  response.type(contentType)
-  conf.copyFromWmsHeaders.forEach(header => {
-    const value = wmsResponse.headers[header]  
-    if (value) {
-      response.header(header, value)
-    }
-  })
-}
-
-const proxy = (request, response, wmsUrl) => {
+const proxyToWms = (request, response, wmsUrl) => {
   const wmsRequest = http.request(wmsUrl, wmsResponse => {
     let buffer
     statusAndHeaders(response, wmsResponse)
@@ -50,7 +31,21 @@ const proxy = (request, response, wmsUrl) => {
   wmsRequest.end()
 }
 
+const proxy = (request, response, wmsUrl) => {
+  const params = request.params
+  const template = conf.layerWmsTemplates[params.layer]
+  if (template && template.metaTiles > 1) {
+    request.params.metaTiles = template.metaTiles
+    console.warn('proxtToWmsAndCrop');
+    proxyToWmsAndCrop(request, response, wmsUrl)
+  } else {
+    console.warn('proxtToWms');
+    proxyToWms(request, response, wmsUrl)
+  }
+}
+
 proxy.http = http
+proxy.crop = proxyToWmsAndCrop
 proxy.log = log
 proxy.statusAndHeaders = statusAndHeaders
 

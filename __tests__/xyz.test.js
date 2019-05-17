@@ -36,7 +36,7 @@ test('xyz to wms with mapped format', () => {
   expect(xyz.proxy.mock.calls[0][0].params.y).toBe('49260')
   expect(xyz.proxy.mock.calls[0][0].params.format).toBe('png')
   expect(xyz.proxy.mock.calls[0][1]).toBe(mockResponse)
-  expect(xyz.proxy.mock.calls[0][2]).toBe('http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true&LAYERS=transit:subway_station&BBOX=-8235936.923671171,4976050.541364973,-8235631.175558031,4976356.289478114&FORMAT=image/png')
+  expect(xyz.proxy.mock.calls[0][2]).toBe('http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:900913&TRANSPARENT=true&LAYERS=transit:subway_station&WIDTH=256&HEIGHT=256&BBOX=-8235936.923671171,4976050.541364973,-8235631.175558031,4976356.289478114&FORMAT=image/png')
 
 })
 
@@ -63,6 +63,6 @@ test('xyz to wms with unmapped format', () => {
   expect(xyz.proxy.mock.calls[0][0].params.y).toBe('49260')
   expect(xyz.proxy.mock.calls[0][0].params.format).toBe('application/json')
   expect(xyz.proxy.mock.calls[0][1]).toBe(mockResponse)
-  expect(xyz.proxy.mock.calls[0][2]).toBe('http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true&LAYERS=transit:subway_station&BBOX=-8235936.923671171,4976050.541364973,-8235631.175558031,4976356.289478114&FORMAT=application/json')
+  expect(xyz.proxy.mock.calls[0][2]).toBe('http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:900913&TRANSPARENT=true&LAYERS=transit:subway_station&WIDTH=256&HEIGHT=256&BBOX=-8235936.923671171,4976050.541364973,-8235631.175558031,4976356.289478114&FORMAT=application/json')
 
 })
