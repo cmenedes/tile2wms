@@ -4,28 +4,26 @@ const proxy = require('./proxy')
 const conf = require('./conf')
 const formats = conf.formats
 
-const getTemplate = (layer) => {
-  return conf.layerWmsTemplates[layer]
-}
-
 const bbox = params => {
-  const template = getTemplate(params.layer)
+  const template = params.template
   const metaTiles = template ? template.metaTiles : 1
-  let bbox = tilegrid.getTileCoordExtent([params.z * 1, params.x * 1, -(Math.abs(params.y) + 1)])  
+  const bbox = tilegrid.getTileCoordExtent([params.z * 1, params.x * 1, -(Math.abs(params.y) + 1)])  
+  let diff = 0
   if (metaTiles > 1) {
     const width = extent.getWidth(bbox)
-    const diff = (width * (metaTiles - 1)) / 2
-    bbox = [bbox[0] - diff, bbox[1] - diff, bbox[2] + diff, bbox[3] + diff]
+    diff = (width * (metaTiles - 1)) / 2
   }
-  return bbox.join(',')
+  return [bbox[0] - diff, bbox[1] - diff, bbox[2] + diff, bbox[3] + diff].join(',')
 }
+
 const xyzHandler = (request, response) => {
   const params = request.params
   const layer = params.layer
   const mimeType = formats[params.format] || params.format
-  const template = getTemplate(layer)
+  const template = conf.layerWmsTemplates[layer]
   const width = template && template.metaTiles ? template.metaTiles * 256 : 256
   let wmsUrl = template ? template.wmsTemplate : conf.defaultWmsTemplate
+  params.template = template
   wmsUrl += `&LAYERS=${layer}`
   wmsUrl += `&WIDTH=${width}`
   wmsUrl += `&HEIGHT=${width}`
