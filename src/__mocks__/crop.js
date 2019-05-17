@@ -1,8 +1,9 @@
-const mock = jest.fn().mockImplementation((request, response, wmsUrl) => {
+const mock = jest.fn().mockImplementation((request, response, buffer, wmsUrl) => {
   if (mock.fail) {
     throw 'crop failed'
   } else {
-    response.send('crop')
+    response.write(buffer)
+    response.end()
   }
 })
 

@@ -3,8 +3,8 @@
   "port": 8088,
   "defaultWmsTemplate": "http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&CRS=EPSG:900913&TRANSPARENT=true",
   "layerWmsTemplates": {
-    "label": {
-      "wmsTemplate" :"http://localhost:8080/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&srs=EPSG:900913",
+    "carto:label": {
+      "wmsTemplate" :"http://msslva-ctwgeo01.csc.nycnet:8080/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&srs=EPSG:900913",
       "metaTiles": 4
     }
   },
