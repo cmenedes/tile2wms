@@ -6,6 +6,9 @@
     "label": {
       "wmsTemplate" :"http://localhost:8080/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&srs=EPSG:900913",
       "metaTiles": 4
+    },
+    "basemap": {
+      "wmsTemplate" :"http://localhost:8080/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&srs=EPSG:900913"
     }
   },
   "headers": {

@@ -14,6 +14,52 @@ beforeEach(() => {
   mockExpressResponse = proxy.http.mockResponse()
 })
 
+test('proxy happy path - has metaTiles', done => {
+  expect.assertions(18)
+
+  /* set up tile2wms mock request */
+  mockExpressRequest.params = {layer: 'label', template: {wmsTemplate: wmsUrl, metaTiles: 3}}
+
+  /* set up WMS mock response */
+  proxy.http.headers = {'content-type': 'image/png8', 'server': 'fred', "wilma": "pebbles"}
+  proxy.http.statusCode = 200
+
+  proxy(mockExpressRequest, mockExpressResponse, wmsUrl)
+
+  setTimeout(() => {
+    expect(proxy.http.request).toHaveBeenCalledTimes(1)
+    expect(proxy.http.request.mock.calls[0][0]).toBe(wmsUrl)
+    expect(typeof proxy.http.request.mock.calls[0][1]).toBe('function')
+
+    expect(mockExpressResponse.status).toHaveBeenCalledTimes(1)
+    expect(mockExpressResponse.status.mock.calls[0][0]).toBe(200)
+    expect(mockExpressResponse.type).toHaveBeenCalledTimes(1)
+    expect(mockExpressResponse.type.mock.calls[0][0]).toBe('image/png8')
+    expect(mockExpressResponse.header).toHaveBeenCalledTimes(1)
+    expect(mockExpressResponse.header.mock.calls[0][0]).toBe('server')
+    expect(mockExpressResponse.header.mock.calls[0][1]).toBe('fred')
+    
+    /* mock data transfer to WMS response */
+    proxy.http.wmsResponse.data(new Buffer([1]))
+    proxy.http.wmsResponse.data(new Buffer([2]))
+
+    /* mock completion on WMS request/response */
+    proxy.http.wmsResponse.end()
+
+    expect(mockExpressResponse.write).toHaveBeenCalledTimes(1)
+    expect(mockExpressResponse.write.mock.calls[0][0]).toEqual(Buffer.concat([new Buffer([1]), new Buffer([2])]))
+
+    expect(proxy.log).toHaveBeenCalledTimes(1)
+    expect(proxy.log.mock.calls[0][0].level).toBe('debug')
+    expect(proxy.log.mock.calls[0][0].request).toBe(mockExpressRequest)
+    expect(proxy.log.mock.calls[0][0].response).toBe(mockExpressResponse)
+    expect(proxy.log.mock.calls[0][0].wmsUrl).toBe(wmsUrl)
+    expect(mockExpressResponse.end).toHaveBeenCalledTimes(1)
+
+    done()
+  }, 500)
+})
+
 test('proxy happy path - no metaTiles', done => {
   expect.assertions(19)
 
@@ -60,54 +106,6 @@ test('proxy happy path - no metaTiles', done => {
     done()
   }, 500)
 })
-
-test('proxy happy path - has metaTiles', done => {
-  expect.assertions(19)
-
-  /* set up tile2wms mock request */
-  mockExpressRequest.params = {layer: 'label'}
-
-  /* set up WMS mock response */
-  proxy.http.headers = {'content-type': 'image/png8', 'server': 'fred', "wilma": "pebbles"}
-  proxy.http.statusCode = 200
-
-  proxy(mockExpressRequest, mockExpressResponse, wmsUrl)
-
-  setTimeout(() => {
-    expect(proxy.http.request).toHaveBeenCalledTimes(1)
-    expect(proxy.http.request.mock.calls[0][0]).toBe(wmsUrl)
-    expect(typeof proxy.http.request.mock.calls[0][1]).toBe('function')
-
-    expect(mockExpressResponse.status).toHaveBeenCalledTimes(1)
-    expect(mockExpressResponse.status.mock.calls[0][0]).toBe(200)
-    expect(mockExpressResponse.type).toHaveBeenCalledTimes(1)
-    expect(mockExpressResponse.type.mock.calls[0][0]).toBe('image/png8')
-    expect(mockExpressResponse.header).toHaveBeenCalledTimes(1)
-    expect(mockExpressResponse.header.mock.calls[0][0]).toBe('server')
-    expect(mockExpressResponse.header.mock.calls[0][1]).toBe('fred')
-    
-    /* mock data transfer to WMS response */
-    proxy.http.wmsResponse.data(1)
-    proxy.http.wmsResponse.data(2)
-
-    /* mock completion on WMS request/response */
-    proxy.http.wmsResponse.end()
-
-    expect(mockExpressResponse.write).toHaveBeenCalledTimes(2)
-    expect(mockExpressResponse.write.mock.calls[0][0]).toBe(1)
-    expect(mockExpressResponse.write.mock.calls[1][0]).toBe(2)
-
-    expect(proxy.log).toHaveBeenCalledTimes(1)
-    expect(proxy.log.mock.calls[0][0].level).toBe('debug')
-    expect(proxy.log.mock.calls[0][0].request).toBe(mockExpressRequest)
-    expect(proxy.log.mock.calls[0][0].response).toBe(mockExpressResponse)
-    expect(proxy.log.mock.calls[0][0].wmsUrl).toBe(wmsUrl)
-    expect(mockExpressResponse.end).toHaveBeenCalledTimes(1)
-
-    done()
-  }, 500)
-})
-
 
 test('proxy wms error response from wms server', done => {
   expect.assertions(20)

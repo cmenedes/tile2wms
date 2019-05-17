@@ -7,11 +7,12 @@ const log = require('./logger').log
 const proxy = (request, response, wmsUrl) => {
   const params = request.params
   const template = params.template 
+  
   const wmsRequest = http.request(wmsUrl, wmsResponse => {
     let wmsData = []
     statusAndHeaders(response, wmsResponse)
     wmsResponse.on('data', data => {
-      if (!template || template.metaTiles < 2) {
+      if (!template || !(template.metaTiles > 1)) {
         response.write(data)
       }
       wmsData.push(data)
@@ -23,7 +24,7 @@ const proxy = (request, response, wmsUrl) => {
       } else {
         log({level: 'debug', request, response, wmsUrl})        
       }
-      if (!template || template.metaTiles < 2) {
+      if (!template || !(template.metaTiles > 1)) {
         response.end()
       } else {
         writeCroppedResponse(request, response, Buffer.concat(wmsData), wmsUrl)
