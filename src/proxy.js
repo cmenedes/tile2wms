@@ -1,4 +1,3 @@
-const conf = require('./conf')
 const http = require('http')
 const writeCroppedResponse = require('./crop')
 const statusAndHeaders = require('./statusAndHeaders')
