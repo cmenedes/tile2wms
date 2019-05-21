@@ -47,7 +47,11 @@
  #### Configuration properties:
    * `loglevel` The log level
    * `port` Port on which to run express server
-   * `defaultWmsTemplate` The default template for making WMS requests.  Must include the following querystring parameters:
+   * `defaultWmsTemplate` The default URL template for making WMS requests.  
+   * `layerWmsTemplates` An optional map of layer names to template cofigutration
+     * `wmsTemplate` The layer-specific URL template for making WMS requests. 
+     * `metaTiles` Optional layer-specific number of [meta tiles](https://wiki.openstreetmap.org/wiki/Meta_tiles) for calculating WMS requests.
+   * All URL templates must include the following querystring parameters:
      * `REQUEST=GetMap`
      * `WIDTH=256`
      * `HEIGHT=256`
@@ -58,6 +62,9 @@
 
 ### Install
 * `yarn install`
+
+### Test
+* `yarn test`
 
 ### Run 
 * `yarn start`
