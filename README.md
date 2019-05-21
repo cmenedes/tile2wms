@@ -21,8 +21,13 @@
     "port": 8080,
     "defaultWmsTemplate": "http://localhost:8080/geoserver/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true",
     "layerWmsTemplates": {
-      "a-layer": "https://a-different-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true",
-      "another-layer": "https://another-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true"
+      "a-layer": {
+        "wmsTemplate": "https://a-different-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true",
+        "metaTiles": 3
+      },
+      "another-layer": {
+        "wmsTemplate": "https://another-server/wms?REQUEST=GetMap&WIDTH=256&HEIGHT=256&CRS=EPSG:900913&TRANSPARENT=true"
+      }
     },
     "headers": {
       "access-control-allow-origin": "*",
