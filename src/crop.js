@@ -11,14 +11,14 @@ const crop = (request, response, buffer, wmsUrl) => {
   const params = request.params
   jimp.read(buffer).then(image => {
     const mimeType = params.format === 'png8' ? formats.png : formats[params.format]
-    log({level: 'debug', request, response, wmsUrl})        
     cropImg(image, params.template.metaTiles)
     image.getBuffer(mimeType, (error, buff) => {
       if (error) throw error
+      log({level: 'debug', request, response, wmsUrl})        
       response.write(buff, 'binary')
     })
   }).catch(err => {
-    log({level: 'error', request, response, wmsUrl, err})
+    log({level: 'error', request, response, wmsUrl, error: err})
     response.status(500)
     response.write(err)
   }).finally(() => {

@@ -39,10 +39,11 @@ beforeEach(() => {
   mockExpressResponse = http.mockResponse()
   mockGoodImage = new MockImage(true)
   mockBadImage = new MockImage(false)
+  crop.log.mockClear()
 })
 
 test('crop happy path png', done => {
-  expect.assertions(14)
+  expect.assertions(19)
 
   /* setup successful WMS image data */
   jimp.canRead = true
@@ -74,12 +75,18 @@ test('crop happy path png', done => {
     expect(mockExpressResponse.end.mock.calls[0][0]).toBeNull()
     expect(mockExpressResponse.end.mock.calls[0][1]).toBe('binary')
 
+    expect(crop.log).toHaveBeenCalledTimes(1)
+    expect(crop.log.mock.calls[0][0].level).toBe('debug')
+    expect(crop.log.mock.calls[0][0].request).toBe(mockExpressRequest)
+    expect(crop.log.mock.calls[0][0].response).toBe(mockExpressResponse)
+    expect(crop.log.mock.calls[0][0].wmsUrl).toBe('http://geoserver')
+
     done()
   }, 500)
 })
 
 test('crop happy path png8', done => {
-  expect.assertions(14)
+  expect.assertions(19)
 
   /* setup successful WMS image data */
   jimp.canRead = true
@@ -111,12 +118,18 @@ test('crop happy path png8', done => {
     expect(mockExpressResponse.end.mock.calls[0][0]).toBeNull()
     expect(mockExpressResponse.end.mock.calls[0][1]).toBe('binary')
 
+    expect(crop.log).toHaveBeenCalledTimes(1)
+    expect(crop.log.mock.calls[0][0].level).toBe('debug')
+    expect(crop.log.mock.calls[0][0].request).toBe(mockExpressRequest)
+    expect(crop.log.mock.calls[0][0].response).toBe(mockExpressResponse)
+    expect(crop.log.mock.calls[0][0].wmsUrl).toBe('http://geoserver')
+
     done()
   }, 500)
 })
 
 test('crop bad WMS image data', done => {
-  expect.assertions(9)
+  expect.assertions(15)
 
   /* setup successful WMS image data */
   jimp.canRead = false
@@ -141,12 +154,19 @@ test('crop bad WMS image data', done => {
     expect(mockExpressResponse.end.mock.calls[0][0]).toBeNull()
     expect(mockExpressResponse.end.mock.calls[0][1]).toBe('binary')
 
+    expect(crop.log).toHaveBeenCalledTimes(1)
+    expect(crop.log.mock.calls[0][0].level).toBe('error')
+    expect(crop.log.mock.calls[0][0].request).toBe(mockExpressRequest)
+    expect(crop.log.mock.calls[0][0].response).toBe(mockExpressResponse)
+    expect(crop.log.mock.calls[0][0].wmsUrl).toBe('http://geoserver')
+    expect(crop.log.mock.calls[0][0].error).toBe('unable to read WMS image data')
+
     done()
   }, 500)
 })
 
 test('crop bad jimp processing', done => {
-  expect.assertions(11)
+  expect.assertions(17)
 
   /* setup successful WMS image data */
   jimp.canRead = true
@@ -175,6 +195,13 @@ test('crop bad jimp processing', done => {
     expect(mockExpressResponse.end).toHaveBeenCalledTimes(1)
     expect(mockExpressResponse.end.mock.calls[0][0]).toBeNull()
     expect(mockExpressResponse.end.mock.calls[0][1]).toBe('binary')
+
+    expect(crop.log).toHaveBeenCalledTimes(1)
+    expect(crop.log.mock.calls[0][0].level).toBe('error')
+    expect(crop.log.mock.calls[0][0].request).toBe(mockExpressRequest)
+    expect(crop.log.mock.calls[0][0].response).toBe(mockExpressResponse)
+    expect(crop.log.mock.calls[0][0].wmsUrl).toBe('http://geoserver')
+    expect(crop.log.mock.calls[0][0].error).toBe('unable to read data from jimp image')
 
     done()
   }, 500)
