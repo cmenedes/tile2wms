@@ -48,7 +48,7 @@
    * `loglevel` The log level
    * `port` Port on which to run express server
    * `defaultWmsTemplate` The default URL template for making WMS requests.  
-   * `layerWmsTemplates` An map of layer names to template cofigutration. If no layer-specific templates are desired use `{}`.
+   * `layerWmsTemplates` An map of layer names to template cofigutration. Use `{}` for no layer-specific templates.
      * `wmsTemplate` The layer-specific URL template for making WMS requests. 
      * `metaTiles` Optional layer-specific number of [meta tiles](https://wiki.openstreetmap.org/wiki/Meta_tiles) for calculating WMS requests.
    * All URL templates must include the following querystring parameters:
@@ -56,8 +56,8 @@
      * `WIDTH=256`
      * `HEIGHT=256`
      * `CRS=EPSG:900913` or `CRS=EPSG:3857`
-   * `headers` A map of headers to set on responses. If no headers are desired use `{}`.
-   * `copyFromWmsHeaders` An array of header names to copy from the WMS response. To copy no headers use  `[]`.
+   * `headers` A map of headers to set on responses. Use `{}` for no headers.
+   * `copyFromWmsHeaders` An array of header names to copy from the WMS response. Use `[]` to copy no headers.
    * `formats` A map of file extensions to mime types.
 
 ### Install
